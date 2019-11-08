@@ -89,7 +89,7 @@ class Records(QWidget):
 
     def ChangeMode(self):
         ChosenMode, okBtnPressed = QInputDialog.getItem(self, "Введите число",
-                                                        "Введите количество попыток",
+                                                        "Выберите режим:",
                                                         ('По буквам', 'По словам', 'По предложениям'),
                                                         1, False)
         if okBtnPressed:
