@@ -1,10 +1,11 @@
-from PyQt5.QtCore import QTimer, Qt
 import sqlite3
 import sys
-from PyQt5 import uic
+from PyQt5 import uic, QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QInputDialog, QTableWidget,\
     QTableWidgetItem, QLineEdit
+from PyQt5.QtCore import QTimer, Qt, QRect
 from random import choice
+
 
 class KeyboardTrainer(QMainWindow):
     def __init__(self):
@@ -74,7 +75,8 @@ class KeyboardTrainer(QMainWindow):
         con.close()
 
     def StartTraining(self):
-        self.TrainingWindow = Training(self, self.CurrentMode, self.Tries, self.difficulty, self.LettersCount)
+        self.TrainingWindow = Training(self, self.CurrentMode,
+                                       self.Tries, self.difficulty, self.LettersCount)
         self.TrainingWindow.show()
 
 
@@ -138,6 +140,7 @@ class Training(QWidget):
 
     def new_word(self):
         if self.ModeOn != 'По буквам':
+
             self.check, self.Neededtime = choice(self.result)
         else:
             letters = 'йцукенгшщзхъфывапролджэячсмитьбюё'
@@ -146,6 +149,14 @@ class Training(QWidget):
                 word += choice(letters)
             self.check = word
             self.Neededtime = len(word) + 1
+        self.Check.setFont(QtGui.QFont('Times', 40))
+        self.Write.setFont(QtGui.QFont('Times', 40))
+        if self.ModeOn == 'По словам':
+            self.Check.setFont(QtGui.QFont('Times', 30))
+            self.Write.setFont(QtGui.QFont('Times', 30))
+        elif self.ModeOn == 'По предложениям':
+            self.Check.setFont(QtGui.QFont('Times', 15))
+            self.Write.setFont(QtGui.QFont('Times', 15))
         self.Neededtime = self.Neededtime * (2 - self.difficulty) // 1
         self.ZeroTime = self.Neededtime
         self.LabelTime.setText(str(int(self.Neededtime)))
@@ -176,7 +187,6 @@ class Training(QWidget):
                 self.Pause = False
                 self.timer.start(1000)
                 self.Write.setReadOnly(False)
-
 
     def ontime(self):
         if self.Tries > 0 and self.Pause is False:
