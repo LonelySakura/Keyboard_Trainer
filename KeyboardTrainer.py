@@ -194,7 +194,7 @@ class Training(QWidget):
             if self.Write.text() == self.check:
                 self.Write.setText('')
                 self.points += (self.difficulty * (len(self.check)
-                                                    * 4 / (self.ZeroTime - self.Neededtime))) // 1
+                                                   * 4 / (self.ZeroTime - self.Neededtime))) // 1
                 self.LabelPoints.setText(str(int(self.points)))
                 self.timer.stop()
                 self.new_word()
